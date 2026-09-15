@@ -5,17 +5,14 @@ df = pd.read_csv("/Users/monaabouassi/Library/Mobile Documents/com~apple~CloudDo
 for column in df.columns:
     print(column)
 
+"""
 # 1, 2, 3. Define Class, Constructor, and Representer
 class Patient:
     def __init__(self, patient_id, sex, age, protein_level):
-        """
-        Constructor defining patient attributes.
-        Update attribute names to match your specific CSV columns if needed.
-        """
         self.patient_id = patient_id
         self.sex = str(sex).strip().capitalize()
-        self.age = float(age) if pd.notnull(age) else np.nan
-        self.protein_level = float(protein_level) if pd.notnull(protein_level) else np.nan
+        self.age = float(age) if pd.notnull(age) else df.nan
+        self.protein_level = float(protein_level) if pd.notnull(protein_level) else df.nan
 
     def __repr__(self):
         """Representer defining what is printed for a Patient object."""
@@ -32,3 +29,5 @@ csv_path = "/Users/monaabouassi/Library/Mobile Documents/com~apple~CloudDocs/BME
 
 # Load data
 df = pd.read_csv(csv_path)
+
+"""
