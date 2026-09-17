@@ -22,7 +22,6 @@ class Patient:
 
     # -----------------------------------------------------------------------------------------------------------------------
     # STEP 2: Make a "constructor" (__init__) that lists the different attributes
-    # that you want your patient objects to have.
     # -----------------------------------------------------------------------------------------------------------------------
 
     def __init__(self,sex: str,age_at_death: int,highest_education: str,ABeta42: float,pTAU: str = "n/a",cognitive_status: str = "n/a"):
@@ -38,8 +37,7 @@ class Patient:
 
 
     # -----------------------------------------------------------------------------------------------------------------------
-    # STEP 3: Make a "representer" (__repr__) that defines what is shown
-    # when you print a patient object.
+    # STEP 3: Make a "representer" (__repr__) that defines what is shown when you print a patient object
     # -----------------------------------------------------------------------------------------------------------------------
 
     def __repr__(self):
@@ -60,10 +58,7 @@ class Patient:
         return self.age_at_death
 
 
-    # -----------------------------------------------------------------------------------------------------------------------
-    # Class method that iterates through all_patients to calculate
-    # the cumulative sum of patient ages at death
-    # -----------------------------------------------------------------------------------------------------------------------
+    # Class method that iterates through all_patients to calculate the cumulative sum of patient ages at death
 
     @classmethod
     def sum_ages(cls):
@@ -76,10 +71,7 @@ class Patient:
         return total
 
 
-    # -----------------------------------------------------------------------------------------------------------------------
-    # Class method searches through all the patient IDs and returns
-    # the matching patient instance
-    # -----------------------------------------------------------------------------------------------------------------------
+    # Class method searches through all the patient IDs and returns the matching patient instance
 
     @classmethod
     def get_patient(cls, patient_ID):
@@ -90,10 +82,7 @@ class Patient:
                 return patient
 
 
-    # -----------------------------------------------------------------------------------------------------------------------
-    # Retrieves the attribute value for sorting and creates a sorted
-    # copy of patient list based on attribute, then prints each patient line-by-line
-    # -----------------------------------------------------------------------------------------------------------------------
+    # Retrieves the attribute value for sorting and creates a sorted copy of patient list based on attribute, then prints each patient line-by-line
 
     @classmethod
     def print_sorted_by(cls, attribute_name: str, reverse: bool = False):
@@ -135,7 +124,7 @@ class Patient:
 
     # -----------------------------------------------------------------------------------------------------------------------
     # STEP 5: Filter patients based on specific attributes
-    #used AI to inform me on how to filter patients correctly, as I had been doing
+    #used AI to inform me on how to filter patients correctly, as I had been doing it wrong
     # -----------------------------------------------------------------------------------------------------------------------
 
     @classmethod
@@ -195,10 +184,9 @@ class Patient:
 
 
     # -----------------------------------------------------------------------------------------------------------------------
-    # STEP 6: Make a class method to filter and print a sub-set of patients
-    # based on at least two specific attributes
+    # STEP 6: Make a class method to filter and print a sub-set of patients based on at least two specific attributes
     #
-    # Here:
+    # in this case:
     # 1. Patient died in their 80s
     # 2. Patient has ABeta42 below max_abeta
     # -----------------------------------------------------------------------------------------------------------------------
