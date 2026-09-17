@@ -2,7 +2,7 @@ import csv
 
 # Opens CSV file and prints each column line by line
 with open(
-    "/Users/monaabouassi/Library/Mobile Documents/com~apple~CloudDocs/BME 2315/MODULE 1 INDIVIDUAL ASSIGNMENT/MODULE-1-INDIVIDUAL-ASSIGNMENT/Metadata and Protein Data for Module 1.csv",
+    "/Users/monaabouassi/Library/Mobile Documents/com~apple~CloudDocs/BME 2315/MODULE 1/BME2315-Module-1/MONA_ABOUASSI_MODULE 1 INDIVIDUAL ASSIGNMENT/Metadata and Protein Data for Module 1.csv",
     newline=""
 ) as f:
     reader = csv.reader(f)

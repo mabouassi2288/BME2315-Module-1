@@ -13,8 +13,7 @@ import statistics
 # --------------------------------------------------------------------------------------------------------------------------- 
 
     #to be sure that you're still creating your patient objects from the .csv data file. 
-Patient.instantiate_from_csv("/Users/monaabouassi/Library/" \
-"Mobile Documents/com~apple~CloudDocs/BME 2315/MODULE 1 INDIVIDUAL ASSIGNMENT/MODULE-1-INDIVIDUAL-ASSIGNMENT/Metadata and Protein Data for Module 1.csv")
+Patient.instantiate_from_csv("/Users/monaabouassi/Library/Mobile Documents/com~apple~CloudDocs/BME 2315/MODULE 1/BME2315-Module-1/MONA_ABOUASSI_MODULE 1 INDIVIDUAL ASSIGNMENT/Metadata and Protein Data for Module 1.csv")
 
 """
 patient1 = Patient(1933004, "Female", 80, "Bachelors", 0.97, 1.90, "No dementia")
