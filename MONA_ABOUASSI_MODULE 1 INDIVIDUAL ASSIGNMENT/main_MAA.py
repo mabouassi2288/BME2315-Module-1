@@ -126,7 +126,7 @@ for patient in Patient.all_patients:
 X = patient_abeta  
 y = patient_ptau   
 
-# 2. Assign to Figure 2
+# Assign to Figure 2
 plt.figure(2)
 
     #visualize these data on our scatter plot, by typing the following:
@@ -135,5 +135,5 @@ plt.xlabel('Amyloid-Beta 42 Level')
 plt.ylabel('pTAU Level')
 plt.title('Scatter Plot of Amyloid-Beta 42 vs pTAU')
 
-# 3. Call a single plt.show() at the very end to open both figure windows together
+# Call a single plt.show() at the very end to open both figure windows together
 plt.show()
