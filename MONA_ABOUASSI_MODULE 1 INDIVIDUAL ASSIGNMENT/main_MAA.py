@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
 import statistics 
+import pandas as pd
+from sklearn.linear_model import LinearRegression #for the line of best fit
 
 # ---------------------------------------------------------------------------------------------------------------------------
 #STEP 4:  Create patient objects using the .csv fileDownload .csv file you were provided of patient demographic data and Luminex protein (amyloid beta and Tau) data.
@@ -32,10 +34,10 @@ print(f"Number of No dementia patients = {len(no_dementia_patients)}")
 #STEP 5: Sort and print the patients in order based on a specific attribute (e.g., age at diagnosis, highest education level, Thal score, etc.)
 # ---------------------------------------------------------------------------------------------------------------------------
 Patient.print_sorted_by("age_at_death")
-Patient.print_sorted_by("highest_education")
-Patient.print_sorted_by("ABeta42") # Optional reverse sorting
-Patient.print_sorted_by("pTAU")
-Patient.print_sorted_by("cognitive_status")
+#Patient.print_sorted_by("highest_education")
+#Patient.print_sorted_by("ABeta42") # Optional reverse sorting
+#Patient.print_sorted_by("pTAU")
+#Patient.print_sorted_by("cognitive_status")
 
 
 # ---------------------------------------------------------------------------------------------------------------------------
@@ -88,6 +90,13 @@ plt.title("Average ABeta42 Levels by Sex")
 plt.xlabel("Sex")
 plt.ylabel("Average ABeta42 Level")
 
+
+# T-TEST -----------------------------------------------
+print(" ")
+t_stat, p_val = stats.ttest_ind(abeta_Female_patients, abeta_Male_patients)
+print(f't_stat = {t_stat}, p_val = {p_val}')
+
+
 # REMOVE plt.show() FROM HERE!
 
 
@@ -104,17 +113,45 @@ for patient in Patient.all_patients:
         patient_abeta.append(patient.ABeta42)
         patient_ptau.append(float(patient.pTAU))
 
-X = patient_abeta  
-y = patient_ptau   
+X = patient_abeta  #independent variable
+y = patient_ptau   #dependent variable
+
+#Linear Regression 
+X = np.array(patient_abeta).reshape(-1,1)
+y = np.array(patient_ptau)
+
+model = LinearRegression()
+model.fit(X, y)
+
+
+# Annotate equation
+slope = model.coef_[0]
+intercept = model.intercept_
+r2 = model.score(X,y)
+
+equation = f"y = {slope:.2f}x + {intercept:.2f}\nR² = {r2:.2f}"
+plt.text(X.max(), y.max(), equation, color="red", fontsize=12, verticalalignment="top")
+
 
 # Assign to Figure 2
 plt.figure(2)
 
+
     #visualize these data on our scatter plot, by typing the following:
 plt.scatter(X, y, color='blue')
+plt.plot(X, model.predict(X), color="red")
 plt.xlabel('Amyloid-Beta 42 Level')
 plt.ylabel('pTAU Level')
 plt.title('Scatter Plot of Amyloid-Beta 42 vs pTAU')
+plt.scatter(X,y, color = "blue")
+plt.plot(X,model.predict(X), color = "red")
+
 
 # Call a single plt.show() at the very end to open both figure windows together
 plt.show()
+
+
+
+
+#do an outlier test for a better grade
+#do more than one scatter plot and bar graph
