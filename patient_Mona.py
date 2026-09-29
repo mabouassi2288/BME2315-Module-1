@@ -1,15 +1,27 @@
 import csv
 
+#Prints the title and beginning information
+print("\n" + "=" * 60)
+print("Hello and welcome to Mona and Cecilia's Module 1 Project!")
+print("=" * 60)
+print("All the data in this module has come from Metadata and Protein Data that Alzheimer's patients have graciously and selflessly provided for us.")
+print(" ")
+print("\n" + "=" * 60)
+print("HEADERS")
+print("=" * 60)
+print("The following are the headers included in the dataset, printed individually for reference.")
+print(" ")
+
 # Opens CSV file and prints each column line by line
 with open(
-    "/Users/monaabouassi/Library/Mobile Documents/com~apple~CloudDocs/BME 2315/MODULE 1/BME2315-Module-1/MONA_ABOUASSI_MODULE 1 INDIVIDUAL ASSIGNMENT/Metadata and Protein Data for Module 1.csv",
+    "/Users/monaabouassi/Library/Mobile Documents/com~apple~CloudDocs/BME 2315/MODULE 1/BME2315-Module-1/Metadata and Protein Data for Module 1 copy.csv",
     newline=""
 ) as f:
     reader = csv.reader(f)
     headers = next(reader)  # Get the first row
 
     for h in headers:
-        print(h)
+        print(h)         #PRINT++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # ---------------------------------------------------------------------------------------------------------------------------
