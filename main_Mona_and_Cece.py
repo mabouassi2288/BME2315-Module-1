@@ -1,3 +1,9 @@
+#AI USAGE STATEMENT: 
+#Used AI to create an ANOVA and p-value statistical analysis test with code.
+#Used AI multiple times to see what was wrong with my code and how to fix it.
+#Used AI to help with specific attributes on my graphs, such as how to move the text to the corner of the graph.
+#Used AI to help with formatting and organizing the code for better readability and maintainability.
+
 from patient_Mona import *
 
 # ---------------------------------------------------------------------------------------------------------------------------
@@ -264,7 +270,9 @@ y = patient_mmse_filtered
 model = LinearRegression()
 model.fit(X, y)
 
+#***********************
 #p-value calculation
+#***********************
 r_value, p_value = stats.pearsonr(X.flatten(), y)
 
 print(f"Pearson correlation = {r_value}")
@@ -397,7 +405,9 @@ patient_mmse_filtered = patient_mmse[non_outliers]
 X = patient_abeta_filtered.reshape(-1, 1)
 y = patient_mmse_filtered
 
+#***********************
 #p-value calculation
+#***********************
 r_value, p_value = stats.pearsonr(X.flatten(), y)
 
 print(f"Pearson correlation = {r_value}")
@@ -468,7 +478,9 @@ y = np.array(patient_age_of_onset_symptoms)
 model = LinearRegression()
 model.fit(X, y)
 
+#***********************
 #p-value calculation
+#***********************
 r_value, p_value = stats.pearsonr(X.flatten(), y)
 
 print(f"Pearson correlation = {r_value}")
