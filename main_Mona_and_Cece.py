@@ -4,7 +4,7 @@
 #Used AI to help with specific attributes on my graphs, such as how to move the text to the corner of the graph.
 #Used AI to help with formatting and organizing the code for better readability and maintainability.
 
-from patient_Mona import *
+from patient_Mona import * #imports the patient file that has all necessary methods to gather and analyze patient data
 
 # ---------------------------------------------------------------------------------------------------------------------------
 #STEP 7: Import everything necessary to make a bar graph that compares the mean (+/- standard deviation) of an attribute that you are interested in between female and male patients 
@@ -154,19 +154,20 @@ plt.xlabel("Age of Diagnosis")
 plt.ylabel("Average MMSE Score")
 
 
-# ANOVA TEST -----------------------------------------------
-print(" ")
+# ANOVA TEST CODE -----------------------------------------------
 
+# Runs a one-way ANOVA test to compare the mean MMSE scores across the three age-of-diagnosis groups
 f_stat, p_val = stats.f_oneway(
-    mmse_under_70,
-    mmse_70_79,
-    mmse_80_plus
+    mmse_under_70,   # MMSE scores for patients diagnosed before age 70
+    mmse_70_79,      # MMSE scores for patients diagnosed between ages 70 and 79
+    mmse_80_plus     # MMSE scores for patients diagnosed at age 80 or older
 )
 
+# Creates formatted text that summarizes the ANOVA results
 anova_text = (
-    f"ANOVA\n"
-    f"F = {f_stat:.2f}\n"
-    f"p = {p_val:.4f}"
+    f"ANOVA\n"               # Labels the statistical test as ANOVA
+    f"F = {f_stat:.2f}\n"    # Displays the F-statistic rounded to 2 decimal places
+    f"p = {p_val:.4f}"       # Displays the p-value rounded to 4 decimal places
 )
 
 plt.text(
@@ -212,51 +213,56 @@ patient_mmse = np.array(patient_mmse)
 # OUTLIER TEST USING IQR
 #***********************
 
-# Find Q1 and Q3 for pTAU
+# Find the first quartile (Q1) and third quartile (Q3) for pTAU values
 Q1_ptau = np.percentile(patient_ptau, 25)
 Q3_ptau = np.percentile(patient_ptau, 75)
 
-# Calculate IQR
+# Calculate the interquartile range (IQR) for pTAU
 IQR_ptau = Q3_ptau - Q1_ptau
 
-# Find lower and upper bounds
+# Calculate the lower and upper limits used to identify pTAU outliers
 lower_ptau = Q1_ptau - 1.5 * IQR_ptau
 upper_ptau = Q3_ptau + 1.5 * IQR_ptau
 
 
-# Find Q1 and Q3 for Last MMSE Score
+# Find the first quartile (Q1) and third quartile (Q3) for Last MMSE Scores
 Q1_mmse = np.percentile(patient_mmse, 25)
 Q3_mmse = np.percentile(patient_mmse, 75)
 
-# Calculate IQR
+# Calculate the interquartile range (IQR) for Last MMSE Scores
 IQR_mmse = Q3_mmse - Q1_mmse
 
-# Find lower and upper bounds
+# Calculate the lower and upper limits used to identify MMSE outliers
 lower_mmse = Q1_mmse - 1.5 * IQR_mmse
 upper_mmse = Q3_mmse + 1.5 * IQR_mmse
 
 
-# Find which data points are NOT outliers
+# Creates a Boolean array that marks data points as True if they are within
+# the acceptable IQR range for BOTH pTAU and MMSE
 non_outliers = (
-    (patient_ptau >= lower_ptau) &
-    (patient_ptau <= upper_ptau) &
-    (patient_mmse >= lower_mmse) &
-    (patient_mmse <= upper_mmse)
+    (patient_ptau >= lower_ptau) &    # pTAU value is above the lower bound
+    (patient_ptau <= upper_ptau) &    # pTAU value is below the upper bound
+    (patient_mmse >= lower_mmse) &    # MMSE score is above the lower bound
+    (patient_mmse <= upper_mmse)      # MMSE score is below the upper bound
 )
 
 
-# Print the outliers that were detected
+# Prints a heading before displaying any detected outliers
 print("\nOutliers detected:")
 
+# Pairs together the pTAU and MMSE values that were identified as outliers
 for ptau, mmse in zip(
-    patient_ptau[~non_outliers],
-    patient_mmse[~non_outliers]
+    patient_ptau[~non_outliers],      # Selects pTAU values marked as outliers
+    patient_mmse[~non_outliers]       # Selects MMSE values marked as outliers
 ):
+    # Prints the pTAU and MMSE values for each detected outlier
     print(f"pTAU = {ptau}, Last MMSE Score = {mmse}")
 
 
-# Remove the outliers
+# Removes the outliers and keeps only the pTAU values within the accepted range
 patient_ptau_filtered = patient_ptau[non_outliers]
+
+# Removes the matching MMSE values so the x- and y-data stay paired correctly
 patient_mmse_filtered = patient_mmse[non_outliers]
 
 #now for the linear regression analysis using the filtered data
@@ -273,16 +279,24 @@ model.fit(X, y)
 #***********************
 #p-value calculation
 #***********************
-r_value, p_value = stats.pearsonr(X.flatten(), y)
 
+# Calculates the Pearson correlation coefficient (r) and p-value
+# between the x-values and y-values
+r_value, p_value = stats.pearsonr(
+    X.flatten(),  # Converts X from a 2D array into a 1D array for pearsonr()
+    y             # y-values being compared with X
+)
+
+# Prints the Pearson correlation coefficient
+# r shows the direction and strength of the linear relationship
 print(f"Pearson correlation = {r_value}")
+
+# Prints the p-value
+# p < 0.05 generally indicates a statistically significant relationship
 print(f"p-value = {p_value}")
 
-# SCATTER PLOT
-plt.figure(2)
 
-
-    #visualize these data on our scatter plot, by typing the following:
+#visualize these data on our scatter plot, by typing the following:
 plt.scatter(X, y, color='blue')
 plt.plot(X, model.predict(X), color="red")
 
@@ -349,56 +363,62 @@ model.fit(X, y)
 # OUTLIER TEST USING IQR
 #***********************
 
-# Convert lists to NumPy arrays
+# Convert the ABeta42 and MMSE lists into NumPy arrays
+# so Boolean filtering can be used later
 patient_abeta = np.array(patient_abeta)
 patient_mmse = np.array(patient_mmse)
 
 
-# Find Q1 and Q3 for ABeta42
+# Find the first quartile (Q1) and third quartile (Q3) for ABeta42
 Q1_abeta = np.percentile(patient_abeta, 25)
 Q3_abeta = np.percentile(patient_abeta, 75)
 
-# Calculate IQR
+# Calculate the interquartile range (IQR) for ABeta42
 IQR_abeta = Q3_abeta - Q1_abeta
 
-# Find lower and upper bounds
+# Calculate the lower and upper bounds used to identify ABeta42 outliers
 lower_abeta = Q1_abeta - 1.5 * IQR_abeta
 upper_abeta = Q3_abeta + 1.5 * IQR_abeta
 
 
-# Find Q1 and Q3 for Last MMSE Score
+# Find the first quartile (Q1) and third quartile (Q3) for Last MMSE Score
 Q1_mmse = np.percentile(patient_mmse, 25)
 Q3_mmse = np.percentile(patient_mmse, 75)
 
-# Calculate IQR
+# Calculate the interquartile range (IQR) for MMSE scores
 IQR_mmse = Q3_mmse - Q1_mmse
 
-# Find lower and upper bounds
+# Calculate the lower and upper bounds used to identify MMSE outliers
 lower_mmse = Q1_mmse - 1.5 * IQR_mmse
 upper_mmse = Q3_mmse + 1.5 * IQR_mmse
 
 
-# Find which data points are NOT outliers
+# Create a Boolean array marking points as True if BOTH
+# ABeta42 and MMSE values fall within the acceptable IQR ranges
 non_outliers = (
-    (patient_abeta >= lower_abeta) &
-    (patient_abeta <= upper_abeta) &
-    (patient_mmse >= lower_mmse) &
-    (patient_mmse <= upper_mmse)
+    (patient_abeta >= lower_abeta) &   # ABeta42 is above the lower bound
+    (patient_abeta <= upper_abeta) &   # ABeta42 is below the upper bound
+    (patient_mmse >= lower_mmse) &     # MMSE is above the lower bound
+    (patient_mmse <= upper_mmse)       # MMSE is below the upper bound
 )
 
 
-# Print the outliers that were detected
+# Print a heading before displaying any detected outliers
 print("\nOutliers detected:")
 
+# Pair together the ABeta42 and MMSE values identified as outliers
 for abeta, mmse in zip(
-    patient_abeta[~non_outliers],
-    patient_mmse[~non_outliers]
+    patient_abeta[~non_outliers],      # Select ABeta42 values marked as outliers
+    patient_mmse[~non_outliers]        # Select matching MMSE values marked as outliers
 ):
+    # Print each detected outlier pair
     print(f"ABeta42 = {abeta}, Last MMSE Score = {mmse}")
 
 
-# Remove the outliers
+# Remove the outliers and keep only the valid ABeta42 values
 patient_abeta_filtered = patient_abeta[non_outliers]
+
+# Remove the matching MMSE values so the x- and y-data stay paired correctly
 patient_mmse_filtered = patient_mmse[non_outliers]
 
 #Make X and Y the filtered list to keep the outliers out
@@ -479,11 +499,22 @@ model = LinearRegression()
 model.fit(X, y)
 
 #***********************
-#p-value calculation
+# P-VALUE CALCULATION
 #***********************
-r_value, p_value = stats.pearsonr(X.flatten(), y)
 
+# Calculates the Pearson correlation coefficient (r) and p-value
+# between the x-values and y-values
+r_value, p_value = stats.pearsonr(
+    X.flatten(),  # Converts X from a 2D array into a 1D array
+    y             # y-values being compared with X
+)
+
+# Prints the Pearson correlation coefficient
+# This shows the strength and direction of the linear relationship
 print(f"Pearson correlation = {r_value}")
+
+# Prints the p-value
+# This helps determine whether the correlation is statistically significant
 print(f"p-value = {p_value}")
 
 #SCATTER PLOT
