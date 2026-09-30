@@ -4,7 +4,7 @@ Alzheimer's Disease
 
 The main data files you should be looking at are **main_Mona_and_Cece.py and patient_Mona.py**. These two files have all the coding required for this project. 
 
-**DO NOT VIEW mina_Cece.py, THIS IS UNCOMPLETED CODE FROM BEFORE THE PROJECT WAS FINISHED!**
+**DO NOT VIEW main_Cece.py, THIS IS UNCOMPLETED CODE FROM BEFORE THE PROJECT WAS FINISHED!**
 
 The code includes:
 - printing all the headers from the data set
