@@ -1,27 +1,6 @@
 import csv
 
-#Prints the title and beginning information
-print("\n" + "=" * 60)
-print("Hello and welcome to Mona and Cecilia's Module 1 Project!")
-print("=" * 60)
-print("All the data in this module has come from Metadata and Protein Data that Alzheimer's patients have graciously and selflessly provided for us.")
-print(" ")
-print("\n" + "=" * 60)
-print("HEADERS")
-print("=" * 60)
-print("The following are the headers included in the dataset, printed individually for reference.")
-print(" ")
 
-# Opens CSV file and prints each column line by line
-with open(
-    "/Users/monaabouassi/Library/Mobile Documents/com~apple~CloudDocs/BME 2315/MODULE 1/BME2315-Module-1/Metadata and Protein Data for Module 1 copy.csv",
-    newline=""
-) as f:
-    reader = csv.reader(f)
-    headers = next(reader)  # Get the first row
-
-    for h in headers:
-        print(h)         #PRINT++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 # ---------------------------------------------------------------------------------------------------------------------------
@@ -36,13 +15,14 @@ class Patient:
     # STEP 2: Make a "constructor" (__init__) that lists the different attributes
     # -----------------------------------------------------------------------------------------------------------------------
 
-    def __init__(self,sex: str,age_at_death: int,highest_education: str,ABeta42: float,pTAU: str = "n/a",cognitive_status: str = "n/a"):
+    def __init__(self,sex: str,age_at_death: int, ABeta42: float,pTAU: str = "n/a", age_of_diagnosis=None, age_of_onset_symptoms=None, last_MMSE_score=None):
         self.sex = sex
         self.age_at_death = int(age_at_death)
-        self.highest_education = highest_education
         self.ABeta42 = float(ABeta42)
         self.pTAU = pTAU
-        self.cognitive_status = cognitive_status
+        self.age_of_diagnosis = age_of_diagnosis
+        self.age_of_onset_symptoms = age_of_onset_symptoms
+        self.last_MMSE_score = last_MMSE_score
 
         # Append each new patient to the list upon initialization
         Patient.all_patients.append(self)
@@ -55,12 +35,13 @@ class Patient:
     def __repr__(self):
 
         return (
-            f"(sex: {self.sex} | "
-            f"{self.age_at_death} | "
-            f"{self.highest_education} | "
+            f"Sex: {self.sex} | "
+            f"Age at Death: {self.age_at_death} | "
             f"ABeta42: {self.ABeta42} | "
             f"pTAU: {self.pTAU} | "
-            f"{self.cognitive_status})"
+            f"Age of Diagnosis: {self.age_of_diagnosis} | "
+            f"Age of Onset Symptoms: {self.age_of_onset_symptoms} | "
+            f"Last MMSE Score: {self.last_MMSE_score})"
         )
 
 
@@ -127,10 +108,11 @@ class Patient:
                 cls(
                     sex=row["Sex"],
                     age_at_death=int(row["Age at Death"]),
-                    highest_education=row["Highest level of education"],
                     ABeta42=float(row["ABeta42 pg/ug"]),
                     pTAU=row["pTAU pg/ug"],
-                    cognitive_status=row["Cognitive Status"]
+                    age_of_diagnosis=int(row["Age of Dementia diagnosis"]) if row["Age of Dementia diagnosis"] != "" else None,
+                    age_of_onset_symptoms=int(row["Age of onset cognitive symptoms"]) if row["Age of onset cognitive symptoms"] != "" else None,
+                    last_MMSE_score=int(row["Last MMSE Score"]) if row["Last MMSE Score"] != "" else None,
                 )
 
 
@@ -146,10 +128,11 @@ class Patient:
         patient_ID="any",
         sex="any",
         age_at_death="any",
-        highest_education="any",
         ABeta42="any",
         pTAU="any",
-        cognitive_status="any"
+        age_of_diagnosis="any",
+        age_of_onset_symptoms="any",
+        last_MMSE_score="any",
     ):
 
         all_patients = list
@@ -159,20 +142,22 @@ class Patient:
             patient_ID,
             sex,
             age_at_death,
-            highest_education,
             ABeta42,
             pTAU,
-            cognitive_status
+            age_of_diagnosis,
+            age_of_onset_symptoms,
+            last_MMSE_score,
         )
 
         attr_name = (
             "patient_ID",
             "sex",
             "age_at_death",
-            "highest_education",
             "ABeta42",
             "pTAU",
-            "cognitive_status"
+            "age_of_diagnosis",
+            "age_of_onset_symptoms",
+            "last_MMSE_score"
         )
 
         for attr in range(len(attr_list)):
