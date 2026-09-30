@@ -42,7 +42,7 @@ print("- ABeta42 levels (individually and by sex)")
 print("- Age of Diagnosis")
 print("- Age of Onset Symptoms")
 print("- Last MMSE Score")
-print(" ")
+print("  ")
 print("To demonstrate how the dataset can be sorted by different variables, the patients are shown below in ascending order of pTAU levels.")
 
 
